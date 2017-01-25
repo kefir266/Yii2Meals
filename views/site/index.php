@@ -3,24 +3,27 @@
 /* @var $this yii\web\View */
 
 use yii\widgets\Pjax;
+use yii\helpers\Html;
 
 $this->title = 'My Yii Application';
 
 ?>
 <div class="site-index">
-
+    <?php Pjax::begin(); ?>
     <div class="col-lg-4">
         <h2>Инградиенты</h2>
+        <?= Html::beginForm(['site/index'], 'post', ['data-pjax' => '', ]); ?>
         <?php if (isset($products)): ?>
             <?php foreach ($products as $product): ?>
-                <input type="checkbox"><?= $product->name ?><br>
+                <?= Html::input('checkbox', 'p'.$product->id, $product->id ) ?><?=$product->name?></br>
             <?php endforeach; ?>
         <?php endif; ?>
-
+        <?= Html::submitButton("Подобрать",  ['class' => 'btn btn-lg btn-success']) ?>
+        <?= Html::endForm(); ?>
     </div>
 
     <div class="body-content">
-        <?php Pjax::begin(); ?>
+
         <div class="row">
             <?php if (isset($meals)): ?>
                 <?php foreach ($meals as $meal): ?>
@@ -38,7 +41,7 @@ $this->title = 'My Yii Application';
                 <?php endforeach; ?>
             <?php endif; ?>
         </div>
-        <?php Pjax::end(); ?>
-    </div>
 
+    </div>
+    <?php Pjax::end(); ?>
 </div>

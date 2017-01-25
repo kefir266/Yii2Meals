@@ -63,12 +63,19 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        $meals = Meal::find()->each();
         $products = Product::find()->each();
-        return $this->render('index', [
-            'meals'=> $meals,
-            'products' => $products
-        ]);
+        $postParams = Yii::$app->request->post();
+        if (sizeof($postParams) > 0) {
+            $meals = Meal::selectMealsByIngredients($postParams);
+
+            return $this->render('index', [
+                'meals' => $meals,
+                'products' => $products
+            ]);
+        } else {
+            return $this->render('index',[
+                'products' => $products,]);
+        }
     }
 
     /**

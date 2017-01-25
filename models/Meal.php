@@ -51,4 +51,15 @@ class Meal extends \yii\db\ActiveRecord
     {
         return $this->hasMany(Ingredient::className(), ['meal_id' => 'id']);
     }
+
+    public static function selectMealsByIngredients($items) {
+        $selected = [];
+        foreach($items as $id => $item) {
+            if ($id == '_csrf') continue;
+            $selected[] = $item;
+            var_dump($item);
+        }
+        return self::find()->innerJoin('ingredient','meal.id = ingredient.meal_id')
+            ->where(['ingredient.product_id' => $selected])->all();
+    }
 }
