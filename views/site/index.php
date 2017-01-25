@@ -17,6 +17,7 @@ $this->title = 'My Yii Application';
             <?php foreach ($products as $product): ?>
                 <?= Html::input('checkbox', 'p'.$product->id, $product->id ) ?><?=$product->name?></br>
             <?php endforeach; ?>
+
         <?php endif; ?>
         <?= Html::submitButton("Подобрать",  ['class' => 'btn btn-lg btn-success']) ?>
         <?= Html::endForm(); ?>
@@ -26,6 +27,10 @@ $this->title = 'My Yii Application';
 
         <div class="row">
             <?php if (isset($meals)): ?>
+                <p><b>Выбрано:  </b>
+                <?php foreach ($selected as $product): ?>
+                    <?= $product->name.'  ' ?>
+                <?php endforeach; ?></p>
                 <?php foreach ($meals as $meal): ?>
                     <div class="col-lg-2">
                         <h3 class="row"><?= $meal->name ?></h3>
@@ -39,6 +44,14 @@ $this->title = 'My Yii Application';
 
                     </div>
                 <?php endforeach; ?>
+            <?php elseif (isset($selected)): ?>
+                <p><b>Выбрано:  </b>
+                    <?php foreach ($selected as $product): ?>
+                        <?= $product->name.'  ' ?>
+                    <?php endforeach; ?></p>
+                <h2>Ничего не найдено!</h2>
+            <?php else: ?>
+                <h2>Выберите больше ингредиентов!</h2>
             <?php endif; ?>
         </div>
 

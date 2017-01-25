@@ -2,9 +2,11 @@
 
 namespace app\controllers;
 
+use app\models\Product;
 use Yii;
 use app\models\Meal;
 use app\models\MealtSearch;
+use yii\helpers\ArrayHelper;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -87,8 +89,10 @@ class MealController extends Controller
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
+            $products = ArrayHelper::map(Product::find()->all(),'id','name');
             return $this->render('update', [
                 'model' => $model,
+                'products' => $products
             ]);
         }
     }

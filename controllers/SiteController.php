@@ -65,12 +65,14 @@ class SiteController extends Controller
     {
         $products = Product::find()->each();
         $postParams = Yii::$app->request->post();
-        if (sizeof($postParams) > 0) {
-            $meals = Meal::selectMealsByIngredients($postParams);
-
+        if (sizeof($postParams) > 2) { //With _csrf
+            $items = Meal::clearPost($postParams);
+            $meals = Meal::selectMealsByIngredients($items);
+            $selected = Product::find()->where(['id' => $items])->all();
             return $this->render('index', [
                 'meals' => $meals,
-                'products' => $products
+                'products' => $products,
+                'selected' => $selected
             ]);
         } else {
             return $this->render('index',[
